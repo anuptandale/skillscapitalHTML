@@ -1,0 +1,64 @@
+/* min width 1025 */
+@media only screen  and (max-width: 1900px) {
+   
+}
+
+@media only screen  and (max-width: 1600px) {
+
+}
+
+@media only screen  and (max-width: 1365px) {
+
+}
+
+
+@media only screen  and (max-width: 1200px) {
+    
+
+    
+}
+
+
+
+
+
+@media (max-width: 1023px) {
+
+}
+
+
+@media (max-width: 979px) {
+ .hireSap a.hire{margin-top: 20px; margin-left: 0px;} 
+.deepVetted span{display: block;line-height: 40px; }
+.sapExpertise p {font-size: 16px;}
+
+}
+
+@media (max-width: 767px) {
+.eliteCont{margin-bottom: 20px;}
+.hireTalent a{display: block;    text-align: center;    margin-bottom: 30px;}
+.facilitates li {max-width: 100%}
+.facilitates{margin-top: 20px;     margin-bottom: 20px;}
+.turnacoundCont{    margin-top: 30px;    padding: 0px;}
+.talentText{text-align: center}
+.hireTalent{max-width: 300px;}
+.Initiatives{border: 0px; padding-left: 0px;}
+.superchargeCont{    margin-top: 43px; }  
+.demandInitiatives{ padding-left: 0px; border-left: 0px solid #d2d3d5;    padding-top: 40px;  }
+.demandSection h2{padding-top: 10px;}
+    
+    
+}
+
+
+@media (max-width: 679px) {
+    .consultantsSection h2 {font-size: 48px; line-height: 52px; }
+    .superchargeSection h2 { font-size: 32px; line-height: 36px;}
+    .aboutusSection h2 {font-size: 52px;}
+    .teamCont { margin-bottom: 20px;}
+   
+}
+@media (max-width: 419px) {
+    .aboutusSection h2 { font-size: 48px;} 
+    .missionSection h2 {font-size: 46px;}
+}

@@ -1,0 +1,82 @@
+@font-face {
+    font-family: 'astronauta_script';
+    src: url('../fonts/astronauta_script-webfont.eot');
+    src: url('../fonts/astronauta_script-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/astronauta_script-webfont.woff') format('woff'),
+         url('../fonts/astronauta_script-webfont.ttf') format('truetype'),
+         url('../fonts/astronauta_script-webfont.svg#astronauta_scriptregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'pelita_stdbold';
+    src: url('../fonts/pelita_std-bold-webfont.woff2') format('woff2'),
+         url('../fonts/pelita_std-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+ @font-face {
+    font-family: 'Pelita Grande Std Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Pelita Grande Std Regular'), url('../fonts/Pelita Grande Std-Regular.woff') format('woff');
+    }
+    
+
+    @font-face {
+    font-family: 'Pelita Grande Std Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Pelita Grande Std Italic'), url('../fonts/Pelita Grande Std-RegularItalic.woff') format('woff');
+    }
+    
+
+    @font-face {
+    font-family: 'Pelita Grande Std Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Pelita Grande Std Bold'), url('../fonts/Pelita Grande Std-Bold.woff') format('woff');
+    }
+    
+
+    @font-face {
+    font-family: 'Pelita Grande Std Bold Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Pelita Grande Std Bold Italic'), url('../fonts/Pelita Grande Std-BoldItalic.woff') format('woff');
+    }
+    
+
+    @font-face {
+    font-family: 'Pelita Std Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Pelita Std Regular'), url('../fonts/Pelita Std-Regular.woff') format('woff');
+    }
+    
+
+    @font-face {
+    font-family: 'Pelita Std Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Pelita Std Italic'), url('../fonts/Pelita Std-RegularItalic.woff') format('woff');
+    }
+    
+
+    @font-face {
+    font-family: 'Pelita Std Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Pelita Std Bold'), url('../fonts/Pelita Std-Bold.woff') format('woff');
+    }
+    
+
+    @font-face {
+    font-family: 'Pelita Std Bold Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Pelita Std Bold Italic'), url('../fonts/Pelita Std-BoldItalic.woff') format('woff');
+    }
