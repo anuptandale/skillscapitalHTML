@@ -29,6 +29,7 @@
     "emailjs": "^4.0.3",
     "emailjs-com": "^3.2.0",
     "fs": "^0.0.1-security",
+    "jquery": "^3.7.1",
     "mammoth": "^1.6.0",
     "next": "14.0.3",
     "pdf-parse": "^1.1.1",
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "@types/annyang": "^2.6.5",
+    "@types/jquery": "^3.5.29",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

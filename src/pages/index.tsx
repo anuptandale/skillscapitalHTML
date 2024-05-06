@@ -3,6 +3,8 @@ import commonStyle, {
   cardsStyling,
   worldMap,
 } from "@/constants/commonStyle";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import Link from "next/link";
 import { HomePageText } from "../constants/texts";
 import Navbar from "@/components/molecules/navbar";
@@ -32,6 +34,32 @@ import { useRouter } from "next/router";
 import CompaniesCarausel from "@/components/molecules/CompaniesCarausel";
 import { GlobalContextProvider } from "../../context/store";
 import aboutPageStyles from "../styles/aboutPageStyles.module.css"
+import { useEffect, useState } from "react";
+import Slider from "react-slick";
+import { DEV_PUBLIC_URL } from "../../configs/auth";
+import axios from "axios";
+const apiUrl = `${DEV_PUBLIC_URL}form/candidates`;
+interface Candidates {
+  Name: string;
+  Email: string;
+  Skills: string;
+  id: string;
+  Experience: string;
+  PreviousRole: string;
+  CurrentRole: string;
+  CandidateProfile: string;
+  Salary: string;
+  PrefferedLocation: string;
+  CurrentLocation: string;
+  buttonText: string;
+}
+function truncateSentence(sentence: string, maxLength = 195) {
+  if (sentence != undefined && sentence.length > maxLength) {
+    return sentence.substring(0, maxLength) + "...";
+  } else {
+    return sentence;
+  }
+}
 export default function Home({ allData }: { allData: any }) {
   const router = useRouter();
   const launchCareerJourneyClicked = () => {
@@ -49,831 +77,808 @@ export default function Home({ allData }: { allData: any }) {
   const ApplyForJobsClicked = () => {
     window.open("https://talent.skillscapital.io/candidateportal?register=true", "_blank");
   };
+  useEffect(() => {
+    const loadScripts = async () => {
 
+      const jqueryScript = document.createElement('script');
+      jqueryScript.src = 'https://code.jquery.com/jquery-3.5.1.slim.min.js';
+      jqueryScript.onload = loadSlickScript; // Load slick.min.js after jQuery is loaded
+      document.body.appendChild(jqueryScript);
+
+      // Load Popper.js
+      const popperScript = document.createElement('script');
+      popperScript.src = 'https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js';
+      document.body.appendChild(popperScript);
+
+      // Load Bootstrap
+      const bootstrapScript = document.createElement('script');
+      bootstrapScript.src = 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js';
+      document.body.appendChild(bootstrapScript);
+
+      // // Load Slick
+      // const slickScript = document.createElement('script');
+      // slickScript.src = '/scripts/slick.min.js'; // Assuming slick.min.js is in the public/scripts directory
+      // document.body.appendChild(slickScript);
+
+      // Load main.js
+      const mainScript = document.createElement('script');
+      mainScript.src = '/scripts/main.js'; // Assuming main.js is in the public/scripts directory
+      mainScript.async = true;
+      document.body.appendChild(mainScript);
+    };
+    const loadSlickScript = () => {
+      // Load slick.min.js after jQuery is loaded
+      const slickScript = document.createElement('script');
+      slickScript.src = '/scripts/slick.min.js'; // Assuming slick.min.js is in the public/scripts directory
+      document.body.appendChild(slickScript);
+    };
+    loadScripts();
+
+    // Clean up function to remove the dynamically added script tags
+    // return () => {
+    //   // Remove all script tags that were added
+    //   document.querySelectorAll('script').forEach(script => {
+    //     if (script.src.includes('/scripts/')) {
+    //       script.remove();
+    //     }
+    //   });
+    // };
+  }, []);
+  const [apiResponse, setApiResponse] = useState<Candidates[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [skills, setSkills] = useState("TM")
+  const fetchData = async (skills: string) => {
+    try {
+      console.log("Fetching data for skills:", skills);
+      
+      let resp = await axios.post(`${apiUrl}`, {
+        profiles: { Skill_Set: "TM" }, pageNumber: Math.floor(Math.random() * 10) + 1
+      });
+      let candidates = resp.data.data.candidatesData;
+      setApiResponse(candidates);
+      console.log(candidates)
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  try {
+    useEffect(() => {
+      fetchData(skills);
+      
+    }, [skills]);
+  } catch (error) {
+    alert(error);
+  }
+ 
+  const setting = {
+    dots: false,
+    infinite: true,
+    speed: 300,
+    autoplay: true,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    mobileFirst: true,
+    // infinite: true,
+    
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 767,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  }
   return (
     <>
-      <section>
-        <Navbar />
-      </section>
+      <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+      <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet" />
+      <link href="css/fonts.css" rel="stylesheet" />
+      <link href="css/reset.css" rel="stylesheet" />
+      <link href="css/style.css" rel="stylesheet" />
+      <link href="css/responsive.css" rel="stylesheet" />
+      <header className="navbar navbar-expand-lg navbar-light ">
+        <div className="container">
+          {/* <!-- Logo --> */}
+          <a className="navbar-brand" href="index.html">
+            <img src="/images/SkillsCapitalLogo.png" alt="skillCapital" />
+          </a>
 
-      <main >
-        <section id={homePageStyle.avideoContainer} >
-          <div className={homePageStyle.flexCenter}>
-            <div className={homePageStyle.topContentSection}>
-              <h1 className={homePageStyle.homePageMainHeading}>
-                <div>{HomePageText.heading_1}</div>
-                <div>{HomePageText.heading_2}</div>
-                <div>{HomePageText.heading_3}</div>
-                {/* <div>{HomePageText.heading_4}</div> */}
-              </h1>
+          {/* <!-- Menu Button (for mobile) --> */}
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
 
-              <h2 className={homePageStyle.homePageMainSubHeading}>
-                {HomePageText.heading2}
-                <br /> {HomePageText.heading2b}
-              </h2>
-              <p className={homePageStyle.homePageMainHeadingPara}>
-                {HomePageText.heading3} <br /> {HomePageText.heading3b} <br />
-                {HomePageText.heading3c}
-              </p>
-
-              <div className={homePageStyle.topTwoButtons}>
-                <Link href="/hire-sap-talent">
-                  <CustomButton2
-                    label={"Hire SAP Talent"}
-                    buttonStyle={{
-                      color: "white",
-                      borderRadius: "25px",
-                      background: "black",
-                      fontSize: "18px",
-                      padding: "10px 25px",
-                      fontFamily: "Poppins",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      gap: "10px",
-                      margin: "0px 30px 0px 30px",
-                      boxShadow: "5px 5px 35px 0px rgba(0, 0, 0, 0.25)",
-                    }}
-                    hoverStyle={{
-                      color: "black",
-                      borderRadius: "25px",
-                      background: "white",
-                      fontSize: "18px",
-                      padding: "10px 25px",
-                      border: "1px solid black",
-                      boxShadow: "5px 5px 35px 0px rgba(0, 0, 0, 0.25)",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      gap: "10px",
-                      margin: "0px 30px 0px 30px",
-                    }}
-                  />
-                </Link>
-
-                <CustomButton2
-                  label={"Explore Specialized Talent"}
-                  onClick={launchCareerJourneyClicked}
-                  buttonStyle={{
-                    color: "#2871FF",
-                    borderRadius: "25px",
-                    background: "#FFF",
-                    fontSize: "18px",
-                    padding: "10px 25px",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "10px",
-                    fontFamily: "Poppins",
-                    border: "1px solid #2871FF",
-                    margin: "0px 15px 0px 0px",
-                    boxShadow: "5px 5px 35px 0px rgba(0, 0, 0, 0.25)",
-                  }}
-                  hoverStyle={{
-                    color: "#FFF",
-                    borderRadius: "25px",
-                    background: "#2871FF",
-                    fontSize: "18px",
-                    padding: "10px 25px",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "10px",
-
-                    margin: "0px 15px 0px 0px",
-
-                    boxShadow: "5px 5px 35px 0px rgba(0, 0, 0, 0.25)",
-                  }}
-                />
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  margin: "60px 30px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    paddingRight: "25px",
-                    color: "#000",
-                    fontFamily: "Poppins",
-                    fontSize: "20px",
-                    fontStyle: "normal",
-                    fontWeight: "500",
-                    lineHeight: "normal",
-                  }}
-                >
-                  <HourglassEmptyRoundedIcon
-                    style={{
-                      fontSize: "32px",
-                      paddingRight: "5px",
-                    }}
-                  />{" "}
-                  <div style={{ fontWeight: "600" }}>{HomePageText.threeTagLine[0]}{" "}</div>
+          {/* <!-- Menu Items --> */}
+          <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul className="navbar-nav">
+              {/* <!-- <li className="nav-item active">
+            <a className="nav-link" href="index.html">Home</a>
+          </li>  --> */}
+              <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" aria-haspopup="true" aria-expanded="false">Hire Elite Talent</a>
+                <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                  <a className="dropdown-item" href="hire-sap-talent.html">Hire SAP Talent</a>
+                  <a className="dropdown-item" href="hire-specialized-tech-talent.html">Hire Specialized Talent</a>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    paddingRight: "25px",
-                    color: "#000",
-                    fontFamily: "Poppins",
-                    fontSize: "20px",
-                    fontStyle: "normal",
-                    fontWeight: "500",
-                    lineHeight: "normal",
-                  }}
-                >
-                  <LeaderboardOutlinedIcon
-                    style={{ fontSize: "32px", paddingRight: "5px" }}
-                  />
-                  <div style={{ fontWeight: "600" }}>{HomePageText.threeTagLine[1]}</div>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">Global Elastic Teams</a>
+              </li>
+              <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" aria-haspopup="true" aria-expanded="false">SAP Talent Solutions</a>
+                <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                  <a className="dropdown-item" href="hire-sap-talent.html">Hire Top SAP Talent</a>
+                  <a className="dropdown-item" href="sap-talent-pool.html">SAP Talent Pool</a>
+                  <a className="dropdown-item" href="#">SAP Custom Solutions</a>
+                  <a className="dropdown-item" href="#">SAP Elite Consulting</a>
+                  <a className="dropdown-item" href="sap-portal-hub.html">SAP Portal Hub</a>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    paddingRight: "25px",
-                    color: "#000",
-                    fontFamily: "Poppins",
-                    fontSize: "20px",
-                    fontStyle: "normal",
-                    fontWeight: "500",
-                    lineHeight: "normal",
-                  }}
-                >
-                  <GroupsOutlinedIcon
-                    style={{ fontSize: "42px", paddingRight: "10px" }}
-                  />
-                  <div style={{ fontWeight: "600" }}>{HomePageText.threeTagLine[2]}</div>
+              </li>
+              <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" aria-haspopup="true" aria-expanded="false">Company</a>
+                <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                  <a className="dropdown-item" href="aboutus.html">About Us</a>
+                  <a className="dropdown-item" href="leadership.html">Leadership Team</a>
+                  <a className="dropdown-item" href="vetting-process.html">Vetting Process</a>
+                  <a className="dropdown-item" href="#">Careers</a>
+                  <a className="dropdown-item" href="contactus.html">Contact Us</a>
                 </div>
-              </div>
-            </div>
-
-            <div>
-              {/* <VideoComponent
-                videoSrc={"/HomePageImages/HomePageVideo.mp4"}
-                videoWidth={"500"}
-                videoHeight={"600"} */}
-              <Image src="/HomePageImages/homePage1.jpeg" width={450} height={450} style={{ borderRadius: "5px", marginTop: "-130px" }} alt="" />
-
-            </div>
-          </div>
-        </section>
-      </main>
-      <section id={homePageStyle.ourEliteNetwork} >
-        <div
-          style={{ background: "#F1F1F1", padding: "10px 100px 50px 100px" }}
-        >
-          <div style={commonStyle.textCenter}>
-            <br />
-            <br />
-            <h2 style={cardsStyling.sapCloudLegacyMainHeading}>
-              {HomePageText.secondHeading_h1}
-            </h2>
-            <br />
-            <h3 style={cardsStyling.sapCloudLegacySubHeading}>{HomePageText.secondSubHeading_h2}</h3>
-            <br />
-          </div>
-          <div className="cards" style={commonStyle.dflex_1}>
-            <CardComponent
-              imageUrl={"/HomePageImages/1-SAP.png"}
-              imageHeight={210}
-              imageWidth={250}
-              headingNumber={HomePageText.SAP_number}
-              headingText={HomePageText.SAP_heading}
-              paragraphText={HomePageText.SAP_content}
-              buttonText="Explore"
-              onButtonClick={handleButtonExplore}
-              buttonEnabled={true}
-            />
-            <CardComponent
-              imageUrl={"/HomePageImages/2-CloudImage.png"}
-              imageHeight={210}
-              imageWidth={250}
-              headingNumber={HomePageText.Cloud_number}
-              headingText={HomePageText.Cloud_heading}
-              paragraphText={HomePageText.Cloud_content}
-              buttonText="Explore"
-              onButtonClick={handleButtonExplore}
-              buttonEnabled={true}
-            />
-            <CardComponent
-              imageUrl={"/HomePageImages/3-LegacyImage.png"}
-              imageHeight={210}
-              imageWidth={250}
-              headingNumber={HomePageText.Legacy_number}
-              headingText={HomePageText.Legacy_heading}
-              paragraphText={HomePageText.Legacy_content}
-              buttonText="Explore"
-              onButtonClick={handleButtonExplore}
-              buttonEnabled={true}
-            />
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="https://talent.skillscapital.io/clientportal">Client Login</a>
+              </li>
+              {/* <!-- <li className="nav-item">
+                <a className="nav-link" href="contact-us.html">Contact Us</a>
+              </li> --> */}
+            </ul>
           </div>
         </div>
-      </section>
-      <main className={homePageStyle.onDemandStyle}>
-        <section >
-          <div className="accodiaonHome">
-            <div className={homePageStyle.ondemandflex} >
-              <div >
-                <h2 style={accordianStylingHomePage.accordianStylingHeading}>
-                  {HomePageText.thirdHeadingH1}
-                </h2>
-                <h3 style={accordianStylingHomePage.accordianStylingSubHeading}>{HomePageText.thirdSubHeadingH2_1}</h3>
-                <h3 style={accordianStylingHomePage.accordianStylingSubHeading}>{HomePageText.thirdSubHeadingH2_2}</h3>
+      </header>
 
-                <p style={accordianStylingHomePage.accordianStylingPara}>
-                  {HomePageText.thirdPara}
-                </p>
-                <br />
-                <br />
-                <AccordionComponent
-                  title={HomePageText.accodiaonHeading1}
-                  content={HomePageText.accordionContent1}
-                />
-                <br />
-                <AccordionComponent
-                  title={HomePageText.accodiaonHeading2}
-                  content={HomePageText.accordionContent2}
-                />
-                <br />
-                <AccordionComponent
-                  title={HomePageText.accodiaonHeading3}
-                  content={HomePageText.accordionContent3}
-                />
-              </div>
-              <div>
-                <Image
-                  src={"/HomePageImages/fingureTip.jpg"}
-                  alt="Accordian Image"
-                  width={450}
-                  height={460}
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
+      <div className="wrapper">
+        {/* <!-- capabilitiesSection --> */}
+        <div className="capabilitiesSection">
+          <section className="container mt-4 ">
+            <div className="row">
+              <div className="col-md-8">
+                <div className="homesapExpertise">
+                  <h2>ELEVATE YOUR <span>GLOBAL TECH CAPABILITIES</span> WITH TOP-TIER TALENT FROM INDIA</h2>
+                  <h3>Deploy Elite, Pre-Vetted Talent 10X Faster and with 95% Precision Matched Across SAP and Specialized
+                    Tech Domains
+                  </h3>
+                  <p> At SkillsCapital, we redefine elite talent acquisition with our AI-powered Talent Cloud. Connect
+                    seamlessly with the deep-vetted SAP and specialized tech experts curated precisely for you, ensuring
+                    your projects advance swiftly and execute with unmatched precision and quality.</p>
 
-      <section id={homePageStyle.ourEliteNetwork} >
-        <div
-          style={{ background: "#F1F1F1", padding: "10px 100px 50px 100px" }}
-        >
-          <div style={commonStyle.textCenter}>
-            <br />
-            <br />
-            <h2 style={cardsStyling.sapCloudLegacyMainHeading}>
-              {HomePageText.secondHeading2_h1}
-            </h2>
-            <br />
-            <h3 style={cardsStyling.sapCloudLegacySubHeading}>{HomePageText.secondSubHeading2_h2}</h3>
-            <br />
-          </div>
-          <div className="cards" style={commonStyle.dflex_1}>
-            <CardComponent
-              imageUrl={"/HomePageImages/cloudDevops.png"}
-              imageHeight={150}
-              imageWidth={250}
-              headingNumber={HomePageText.SAP_number2}
-              headingText={HomePageText.SAP_heading2}
-              paragraphText={HomePageText.SAP_content2}
-              buttonText="Explore Now"
-              onButtonClick={handleButtonExploreNow}
-              buttonEnabled={true}
-            />
-            <CardComponent
-              imageUrl={"/HomePageImages/legacySoftware.png"}
-              imageHeight={210}
-              imageWidth={250}
-              headingNumber={HomePageText.Cloud_number2}
-              headingText={HomePageText.Cloud_heading2}
-              paragraphText={HomePageText.Cloud_content2}
-              buttonText="Explore Now"
-              onButtonClick={handleButtonExploreNow}
-              buttonEnabled={true}
-            />
-            <CardComponent
-              imageUrl={"/HomePageImages/llm.jpg"}
-              imageHeight={150}
-              imageWidth={250}
-              headingNumber={HomePageText.Legacy_number2}
-              headingText={HomePageText.Legacy_heading2}
-              paragraphText={HomePageText.Legacy_content2}
-              buttonText="Explore Now"
-              onButtonClick={handleButtonExploreNow}
-              buttonEnabled={true}
-            />
-          </div>
-        </div>
-      </section>
-      <main >
-        <section className={homePageStyle.chooseDeveloper} >
-          <ContentComponent
-            imageUrl={"/HomePageImages/WhyUs.png"}
-            altText={"WhySkillsCapitalDev"}
-            Imgheight={550}
-            Imgwidth={500}
-            order="imageLeft"
-            pointsIcons={HomePageText.pointsIcons}
-            heading={HomePageText.whyOurDevelopersHeading}
-            subHeading={HomePageText.whyOurDevelopersPara}
-            para={HomePageText.whyOurDevelopersKeyPoint}
-            noOfPoints={4}
-            points={[
-              HomePageText.whyOurDevelopersSubHeading1,
-              HomePageText.whyOurDevelopersSubHeading2,
-              HomePageText.whyOurDevelopersSubHeading3
-            ]}
-            paraPoints={HomePageText.paraPoints}
-            noOflogoImages={3}
-            logoImagesUrl={[`1`, "2", "3"]}
-            buttonEnable={false}
-          />
-        </section>
-      </main>
-
-      <section >
-        <div className={homePageStyle.worldMapStyle} >
-          <div style={{ padding: "60px 0px 60px 60px", position: "absolute", zIndex: "1" }}>
-            <h1 style={worldMap.heading}>{HomePageText.worldMapHeading}</h1>
-
-            <p style={worldMap.para}>{HomePageText.worldMapPara}</p>
-
-            <br />
-            <br />
-            <div
-              style={{
-                display: "flex",
-                alignItems: "flex-start",
-                gap: "80px",
-              }}
-            >
-              <div>
-                <div style={worldMap.worldMapNumber}>
-                  {HomePageText.worldMapNum1}
-                </div>
-                <span style={worldMap.worldMapNumberTitle}>
-                  {HomePageText.worldMapNum1Title}
-                </span>
-              </div>
-              <div>
-                <div style={worldMap.worldMapNumber}>
-                  {HomePageText.worldMapNum2}
-                </div>
-                <span style={worldMap.worldMapNumberTitle}>
-                  {HomePageText.worldMapNum2Title}
-                </span>
-              </div>
-              <div>
-                <div style={worldMap.worldMapNumber}>
-                  {HomePageText.worldMapNum3}
-                </div>
-                <span style={worldMap.worldMapNumberTitle}>
-                  {HomePageText.worldMapNum3Title}
-                </span>
-              </div>
-
-              <br />
-            </div>
-            <br />
-            <br />
-            <br />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "start",
-                gap: "40px",
-                width: "40vw",
-              }}
-            >
-              <CustomButton2
-                label={HomePageText.worldMapButton1}
-                onClick={HireDeveloperClicked}
-                buttonStyle={{
-                  color: "#2871FF",
-                  borderRadius: "5px",
-                  background: "#FFF",
-                  fontSize: "18px",
-                  padding: "10px 25px",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: "10px",
-                }}
-                hoverStyle={{
-                  color: "#FFF",
-                  borderRadius: "5px",
-                  background: "#2871FF",
-                  fontSize: "18px",
-                  border: "2px solid #FFF",
-                  padding: "10px 25px",
-                  justifyContent: "center",
-                  boxShadow: " 0px 2px 2px smokeWhite",
-                  alignItems: "center",
-                  gap: "10px",
-                }}
-              />
-              <CustomButton2
-                label={HomePageText.worldMapButton2}
-                onClick={ApplyForJobsClicked}
-                buttonStyle={{
-                  color: "#FFF",
-                  borderRadius: "5px",
-                  background: "#2871FF",
-                  fontSize: "18px",
-                  border: "2px solid #FFF",
-                  padding: "10px 25px",
-                  justifyContent: "center",
-                  boxShadow: " 0px 2px 2px smokeWhite",
-                  alignItems: "center",
-                  gap: "10px",
-                }}
-                hoverStyle={{
-                  color: "#2871FF",
-                  borderRadius: "5px",
-                  background: "#FFF",
-                  fontSize: "18px",
-                  padding: "10px 25px",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: "10px",
-                }}
-              />
-            </div>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignContent: "center",
-              alignItems: "center",
-              position: "relative"
-            }}
-          >
-            <Image
-              src={"/HomePageImages/WorldImage.png"}
-              alt="worldMap"
-              width={570}
-              height={380}
-              className={homePageStyle.worldmapImage}
-            />
-          </div>
-        </div>
-      </section>
-      <main >
-        <section style={commonStyle.sectionMargin}>
-          <center>
-            {" "}
-            <h2 className={homePageStyle.whyChooseUs2}>
-              {HomePageText.whyUsHeading}
-            </h2>{" "}
-          </center>
-
-          <div className={homePageStyle.threeCardStyle} >
-            <StructureCard
-              imageUrl={"/HomePageImages/clientapproach.jpg"}
-              imageHeight={280}
-              imageWidth={300}
-              cardHeading={HomePageText.whyUsCard1Heading}
-              altText="skillsCapital"
-              bulletPoints={HomePageText.whyUsCard1Points}
-            />
-            <SpecialCard
-              cardHeading={HomePageText.whyUsMainCardHeading}
-              points={HomePageText.whyUsMainCardPoints}
-              logoImages={HomePageText.whyUsMainCardBulletIcons}
-              btnLabel={HomePageText.whyUsMainCardButton}
-            />
-            <StructureCard
-              imageUrl={"/HomePageImages/clientsuccess.jpg"}
-              imageHeight={280}
-              imageWidth={280}
-              cardHeading={HomePageText.whyUsCard2Heading}
-              altText="skillsCapital"
-              bulletPoints={HomePageText.whyUsCard2Points}
-            />
-          </div>
-        </section>
-
-        <section className={homePageStyle.speedcard} >
-          <div className={homePageStyle.speedQualityContainer}>
-            <SpeedQualityCard
-              title={HomePageText.speedHeading}
-              subheading={HomePageText.speedSubHeading}
-              imageSrc={"/HomePageImages/fastHiring.png"}
-              imageHeight={250}
-              imageWidth={380}
-              paragraph={HomePageText.speedPara}
-            />
-            <SpeedQualityCard
-              title={HomePageText.QualityHeading}
-              subheading={HomePageText.QualitySubHeading}
-              imageSrc={"/HomePageImages/qulitywork.jpg"}
-              imageHeight={230}
-              imageWidth={340}
-              paragraph={HomePageText.qualityPara}
-            />
-          </div>
-        </section>
-
-
-        <section>
-          <div className={homePageStyle.backGroundBlueHomePage}>
-            <div>
-              <h1 id={hireDevStyles.heading}>
-                {HomePageText.topCompaniesHeading}
-              </h1>
-              <br />
-              <br />
-              <br />
-              {/* <p style={blueSection.para}>{HomePageText.topCompaniesPara}</p> */}
-              <br />
-              <br />
-
-              <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
-
-
-                <div style={{ backgroundColor: "white", borderRadius: "10px", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/HireDeveloperImages/company_1.png`}
-                    alt="Logo"
-                    height={90}
-                    width={260}
-                    style={{ marginTop: "0px", borderRadius: "10px" }}
-                  />
-                </div>
-
-                <div style={{ backgroundColor: "white", borderRadius: "10px", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/HireDeveloperImages/company_2.jpg`}
-                    alt="Logo"
-                    height={90}
-                    width={160}
-                    style={{ marginTop: "0px", borderRadius: "10px" }}
-                  />
-                </div>
-                <div style={{ backgroundColor: "white", borderRadius: "10px", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/HireDeveloperImages/company_3.jpg`}
-                    alt="Logo"
-                    height={80}
-                    width={160}
-                    style={{ borderRadius: "10px" }}
-                  />
-                </div>
-                <div style={{ backgroundColor: "white", borderRadius: "10px", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/HireDeveloperImages/company_4.jpeg`}
-                    alt="Logo"
-                    height={90}
-                    width={180}
-                    style={{ borderRadius: "10px" }}
-                  />
-                </div>
-
-                <div style={{ backgroundColor: "white", borderRadius: "10px", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/HireDeveloperImages/company_5.jpg`}
-                    alt="Logo"
-                    height={80}
-                    width={270}
-                    style={{ borderRadius: "10px" }}
-                  />
-                </div>
-                <div style={{ backgroundColor: "white", borderRadius: "10px", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/HireDeveloperImages/company_6.png`}
-                    alt="Logo"
-                    height={60}
-                    width={240}
-                    style={{ borderRadius: "10px" }}
-                  />
-                </div>
-                <div style={{ backgroundColor: "white", borderRadius: "10px", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/HireDeveloperImages/company_7.jpg`}
-                    alt="Logo"
-                    height={80}
-                    width={170}
-                    style={{ borderRadius: "10px" }}
-                  />
-                </div>
-
-                <div style={{ backgroundColor: "white", borderRadius: "10px", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/HireDeveloperImages/company_8.jpeg`}
-                    alt="Logo"
-                    height={70}
-                    width={250}
-                    style={{ borderRadius: "10px" }}
-                  />
-                </div>
-                <div style={{ backgroundColor: "white", borderRadius: "10px", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/HireDeveloperImages/company_9.jpg`}
-                    alt="Logo"
-                    height={50}
-                    width={230}
-                    style={{ marginTop: "27px" }}
-                  />
-                </div>
-                <div style={{ backgroundColor: "white", borderRadius: "10px", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/HireDeveloperImages/company_10.jpeg`}
-                    alt="Logo"
-                    height={80}
-                    width={150}
-                    style={{ borderRadius: "10px" }}
-                  />
-                </div>
-                <div style={{ backgroundColor: "white", borderRadius: "10px", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/HireDeveloperImages/company_11.jpg`}
-                    alt="Logo"
-                    height={80}
-                    width={150}
-                    style={{ borderRadius: "10px" }}
-                  />
-                </div>
-
-                <div style={{ backgroundColor: "white", borderRadius: "10px", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/HireDeveloperImages/company_13.jpg`}
-                    alt="Logo"
-                    height={50}
-                    width={240}
-                    style={{ marginTop: "30px", borderRadius: "10px" }}
-                  />
-                </div>
-
-
-              </div>
-            </div>
-          </div>
-        </section>
-        {/* <section className={homePageStyle.outerContainer}>
-          <CompaniesCarausel />
-          <div style={{ display: "flex", gap: "100px", marginTop: "200px" }}>
-            <Image
-              style={{
-                width: "172.214px",
-                height: "30.94px",
-                flexShrink: "0",
-              }}
-              src={fastCompanyImage}
-              alt=""
-            />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "-9px",
-              }}
-            >
-              <Image
-                style={{
-                  width: "49.07px",
-                  height: "49.07px",
-                  flexShrink: "0",
-                }}
-                src={I_icon}
-                alt=""
-              />
-              <Image
-                style={{
-                  width: "225.908px",
-                  height: "23.262px",
-                  flexShrink: "0",
-                }}
-                src={theinfoImage}
-                alt=""
-              />
-            </div>
-            <Image
-              style={{ width: "98px", height: "25px", flexShrink: "0" }}
-              src={forebsImage}
-              alt=""
-            />
-            <Image
-              style={{
-                width: "62px",
-                height: "31px",
-                flexShrink: "0",
-              }}
-              src={tcImage}
-              alt=""
-            />
-          </div>
-        </section> */}
-        {/* <section className={homePageStyle.carauselOutercontainer}>
-          <HomeCandidateProfile/>
-          </section> */}
-
-      </main>
-      <section>
-        <div className={aboutPageStyles.backGroundBlueHomePage}>
-          <div>
-            <div style={{ fontSize: "38px", fontWeight: "600" }}>
-              As Covered in the Media
-            </div>
-            <div style={{ fontSize: "18px", fontWeight: "600" }}>
-              SkillsCapital Revolutionizes SAP and Specialized Talent Landscape
-            </div>
-            <br />
-            <br />
-
-
-            <div style={{ display: "flex",flexDirection:"column", gap: "20px", flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
-
-              <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
-                <div style={{ backgroundColor: "white", borderRadius: "10px", border: "1px solid lightgrey", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/AboutPageImages/etcio.jpg`}
-                    alt="Logo"
-                    height={50}
-                    width={170}
-                    style={{ marginTop: "20px", borderRadius: "10px" }}
-                  />
-                </div>
-
-                <div style={{ backgroundColor: "white", border: "1px solid lightgrey", borderRadius: "10px", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/AboutPageImages/ethrworld.png`}
-                    alt="Logo"
-                    height={50}
-                    width={190}
-                    style={{ marginTop: "20px", borderRadius: "10px" }}
-                  />
-                </div>
-                <div style={{ backgroundColor: "white", border: "1px solid lightgrey", borderRadius: "10px", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/AboutPageImages/media3.avif`}
-                    alt="Logo"
-                    height={80}
-                    width={160}
-                    style={{ borderRadius: "10px" }}
-                  />
+                  <div className="hireSap"><a className="hire" href="hire-sap-talent.html">Hire SAP Talent</a><a className="hire"
+                    href="hire-specialized-tech-talent.html">Explore Specialized Talent</a></div>
+                  <div className="deepVetted"><span><img src="/images/icon03.jpg" alt="Deep Vetted" />Deep Vetted</span><span><img
+                    src="/images/icon02.jpg" alt="Culturally Fit" />Culturally Fit</span><span><img src="/images/icon01.jpg"
+                      alt="Deploy Ready" />Deploy Ready</span></div>
                 </div>
               </div>
-              <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
-                <div style={{ backgroundColor: "white", border: "1px solid lightgrey", borderRadius: "10px", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/AboutPageImages/media4.jpg`}
-                    alt="Logo"
-                    height={45}
-                    width={170}
-                    style={{ marginTop: "25px", borderRadius: "10px" }}
-                  />
-                </div>
+              <div className="col-md-4">
+                <div className="bannerImg">
+                  <img src="/images/banner02.png" alt="ELEVATE YOUR TECH CAPABILITIES" className="img-fluid" />
 
-                <div style={{ backgroundColor: "white", border: "1px solid lightgrey", borderRadius: "10px", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/AboutPageImages/media5.png`}
-                    alt="Logo"
-                    height={98}
-                    width={290}
-                    style={{ marginTop: "1px", borderRadius: "10px" }}
-                  />
-                </div>
-                <div style={{ backgroundColor: "white", border: "1px solid lightgrey", borderRadius: "10px", width: "300px", height: "100px" }}>
-                  <Image
-                    className={hireDevStyles.amazon}
-                    src={`/AboutPageImages/media6.png`}
-                    alt="Logo"
-                    height={55}
-                    width={200}
-                    style={{ borderRadius: "10px" }}
-                  />
                 </div>
               </div>
-
-
-
             </div>
-          </div>
-        </div>
-      </section>
-      <section className={homePageStyle.carauselOutercontainer}>
-          <HomeCandidateProfile/>
           </section>
-      <FotterComponent />
+        </div>
+        {/* <!-- empowerSection  --> */}
+        <div className="empowerSection">
+          <section className="container mt-4 ">
+            <div className="row">
+              <div className="col-md-12">
+                <h2>Empower Your SAP Initiatives with<br />Our Extensive Expert Network</h2>
+                <h4>Access a World-className Pool of SAP Professionals, Ready to Drive Your Success</h4>
+              </div>
+            </div>
+            <div className="row mt-4">
+              <div className="col-md-4">
+                <div className="preBoxExplore">
+
+                  <h5>Pre-Vetted & Certified SAP Experts</h5>
+                  <span className="number">14000+</span>
+                  <p>Select from over 14,000 SAP experts who are certified and pre-vetted through rigorous evaluation. Our
+                    commitment to quality means you collaborate with professionals who bring proven expertise to SAP
+                    projects.</p>
+                  <div><a href="hire-sap-talent.html">Explore</a> </div>
+
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="preBoxExplore">
+
+                  <h5>Specialized SAP Expertise Spectrum</h5>
+
+                  <span className="number">1800+</span>
+                  <p>Explore a diverse array of SAP skills with over 1800+ unique combinations spanning across SAP modules,
+                    solutions, and specializations. From SAP FICO to SAP HANA, it encompasses a wide spectrum of SAP
+                    expertise.</p>
+                  <a href="/hire-sap-talent.html">Explore</a>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="preBoxExplore">
+
+                  <h5>Ready to Deploy SAP Consultants</h5>
+
+                  <span className="number">600+</span>
+                  <p>Benefit from immediate access to 600 SAP consultants who are ready to deploy and integrate seamlessly
+                    into your projects. Accelerate your SAP initiatives with experts who are prepared to hit the ground
+                    running.</p>
+                  <a href="/hire-sap-talent.html">Explore</a>
+                </div>
+              </div>
+
+            </div>
+          </section>
+        </div>
+
+        {/* <!-- fingertipsSection --> */}
+        <div className="fingertipsSection">
+          <section className="container mt-4 ">
+            <div className="row">
+              <div className="col-md-7">
+                <div className="homesapProjects">
+                  <h2>Specialized SAP Talent at Your Fingertips</h2>
+                  <h3>Unlock the Full Potential of Your SAP Investments with Our Expert Talent Pool and Effortlessly Deploy
+                    SAP Experts On Demand and Scale Your Projects with Confidence.</h3>
+                  <ul>
+                    <li>
+                      <h4 data-toggle="collapse" data-target="#toggleDiv1" aria-expanded="false" aria-controls="toggleDiv">
+                        Comprehensive SAP Expertise<span className="arrow-icon"></span>
+                      </h4>
+                      <div className="collapse homesapProjectsText" id="toggleDiv1">
+                        Delve into our rich ecosystem of SAP talent,
+                        where each consultant is a beacon of knowledge and experience. Our platform hosts a diverse array of
+                        SAP experts, from functional and technical consultants to SAP project managers and solution
+                        architects, each vetted to ensure they bring not only skills but also innovative solutions to your
+                        SAP challenges.
+                      </div>
+                    </li>
+                    <li>
+                      <h4 data-toggle="collapse" data-target="#toggleDiv2" aria-expanded="false"
+                        aria-controls="toggleDiv">On-Demand SAP Talent Deployment<span className="arrow-icon"></span></h4>
+                      <div className="collapse homesapProjectsText" id="toggleDiv2">Access our extensive pool of SAP experts and
+                        deploy them on demand to meet your project requirements promptly. Whether you need additional
+                        resources for a short-term project or ongoing support, our platform makes it easy to find the right
+                        talent when you need it. Access our global talent hub and tap into a diverse pool of SAP experts
+                        across the globe.</div>
+                    </li>
+                    <li>
+                      <h4 data-toggle="collapse" data-target="#toggleDiv3" aria-expanded="false"
+                        aria-controls="toggleDiv">Customized SAP Solutions<span className="arrow-icon"></span></h4>
+                      <div className="collapse homesapProjectsText" id="toggleDiv3">Whether you&apos;re implementing SAP S/4HANA,
+                        optimizing SAP BW/4HANA processes, or seeking expertise in niche modules like SAP SuccessFactors or
+                        SAP Ariba, our talent cloud is your go-to source. We provide precisely matched SAP professionals who
+                        are adept at tailoring their approach to meet your unique business needs and project goals.</div>
+                    </li>
+
+                  </ul>
+                </div>
+              </div>
+              <div className="col-md-5">
+                <div className="bannerImg">
+                  <img src="/images/talent-img.png" alt="Specialized SAP Talent at Your Fingertips" className="img-fluid" />
+
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* <!-- empowerSection  --> */}
+        <div className="empowerSection specializedCont">
+          <section className="container mt-4 ">
+            <div className="row">
+              <div className="col-md-12">
+                <h2>Specialized Talent to Transform<br />the SAP and Non-SAP Ecosystem</h2>
+                <h4>Access a World-className Pool of Specialized Tech Experts to Provide Comprehensive Solutions</h4>
+              </div>
+            </div>
+            <div className="row mt-4 ">
+              <div className="col-md-4">
+                <div className="preBoxExplore">
+
+                  <h5>Cloud &amp; DevOps<br /> Excellence</h5>
+                  <img src="/images/icon17.png" alt="Cloud & DevOps Excellence" className="img-fluid" />
+                  <span className="number">6400+</span>
+                  <p>Empower your Cloud &amp; DevOps with our elite experts (AWS, Azure, GCP etc.), driving innovation and
+                    efficiency in your tech landscape.</p>
+                  <div><a href="/hire-specialized-tech-talent.html">Explore Now</a> </div>
+
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="preBoxExplore">
+
+                  <h5>Legacy Modernization Specialists</h5>
+                  <img src="/images/icon19.png" alt="Legacy Modernization Specialists" className="img-fluid" />
+                  <span className="number">4600+</span>
+                  <p>Revitalize and transform your legacy systems with our deep vetted talent, ensuring seamless
+                    modernization and future-readiness.</p>
+                  <a href="/hire-specialized-tech-talent.html">Explore Now</a>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="preBoxExplore">
+
+                  <h5>AI/ML/LLM Powered Innovators</h5>
+                  <img src="/images/icon18.png" alt="AI/ML/LLM Powered Innovators" className="img-fluid" />
+                  <span className="number">400+</span>
+                  <p>Leverage our elite team of AI/ML specialists to unlock the full potential of artificial intelligence
+                    and GenAI in your organization</p>
+                  <a href="/hire-specialized-tech-talent.html">Explore Now</a>
+                </div>
+              </div>
+
+            </div>
+          </section>
+        </div>
+
+        {/* <!-- demandSection  --> */}
+        <div className="demandSection">
+          <section className="container mt-4 ">
+            <div className="row">
+              <div className="col-md-12">
+
+
+              </div>
+              <div className="col-md-4">
+                <h2>Deploy Deep Vetted Niche Tech Talent On Demand</h2>
+                <p>Our elite developers stand out for their unparalleled expertise, dedication, and commitment to delivering
+                  exceptional results. That&apos;s why businesses trust our consultants to drive their projects to success</p>
+              </div>
+              <div className="col-md-8">
+                <ul className="demandInitiatives">
+                  <li>
+                    <span className="imgCont"><img src="/images/icon03.png" alt=" Unmatched Quality" /></span>
+                    <h5>AI Vetting for Unmatched Quality</h5>
+                    <p>Our developers undergo rigorous vetting processes powered by cutting-edge AI, ensuring only most
+                      qualified and capable consultants are selected. By leveraging AI, we guarantee unmatched quality,
+                      expertise and confidence in our Talent capabilities.</p>
+                  </li>
+                  <li>
+                    <span className="imgCont"><img src="/images/icon04.png" alt=" Immediate Impact" /></span>
+                    <h5>Fast Deployment for Immediate Impact</h5>
+                    <p>With our agile and streamlined processes, our developers can be onboarded in record time. Whether you
+                      need support for urgent initiatives or want to kickstart new implementation, you can harness expertise
+                      of our developers precisely when you need it.</p>
+                  </li>
+                  <li>
+                    <span className="imgCont"><img src="/images/icon05.png" alt="Comprehensive Solutions" /></span>
+                    <h5>Versatile Skills for Comprehensive Solutions</h5>
+                    <p>Our talent pool is primed to tackle a wide range of technical challenges. Whether you require
+                      specialized SAP consulting, seamless integration of Cloud technologies, or modernization of legacy
+                      systems, our developers bring the expertise and agility needed.</p>
+                  </li>
+
+                </ul>
+              </div>
+
+            </div>
+          </section>
+        </div>
+        {/* <!-- elitesapSection  --> */}
+        <div className="elitesapSection">
+          <section className="container mt-4 ">
+            <div className="row">
+              <div className="col-md-12">
+                <h2>25,400+ Elite SAP and Specialized Tech<br />Talent Comprise Our Skills Capital Talent Cloud</h2>
+                <h4>Leveraging Our Strong Pool of Deep-Vetted Elite Talents to Empower<br />Clients and Drive Innovation
+                  Across the Globe</h4>
+
+              </div>
+              <div className="col-md-3 eliteCont">
+                <h2>25k+</h2>
+                <p>Deep Vetted Developers</p>
+              </div>
+              <div className="col-md-3 eliteCont">
+                <h2>100+</h2>
+                <p>Specialized Skill Sets</p>
+              </div>
+              <div className="col-md-3 eliteCont">
+                <h2>25+</h2>
+                <p>AI Vetting Criteria</p>
+              </div>
+              <div className="col-md-12 hireTalent">
+                <a href="/hire-sap-talent.html">Hire SAP Talent</a> <a
+                  href="https://talent.skillscapital.io/candidateportal?register=true">Explore Specialized Talent</a>
+
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* <!-- fourth Section  --> */}
+        <div className="WhyChooseUs">
+          <section className="container mt-4 ">
+            <div className="row">
+              <div className="col-md-12">
+                <h2>Why Choose Us?</h2>
+
+              </div>
+            </div>
+            <div className="row mt-4">
+              <div className="col-md-4 ">
+                <div className="hometalentText">
+                  <img src="/images/icon09.png" alt="Client-Centric Approach" className="img-fluid" />
+                  <h5>Client-Centric Approach</h5>
+
+                  <ul className="hometalentTextList">
+                    <li>SAP &amp; Niche Tech Focus</li>
+                    <li>AI-Powered Precision</li>
+                    <li>Proven Track Record </li>
+                    <li>24/7 Dedicated Support</li>
+
+                  </ul>
+
+                </div>
+              </div>
+              <div className="col-md-4 facilitates  ">
+
+                <div className="hometalentText">
+                  <h5>Our Talent Cloud Facilitates</h5>
+                  <ul>
+                    <li>Intellegent Vetting</li>
+                    <li>Extensive Matching</li>
+                    <li>Availability check</li>
+                    <li>Quality Control</li>
+                  </ul>
+                  <a href="" className="work">See How It Works</a>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="hometalentText">
+                  <img src="/images/icon10.png" alt="Focused on Your Success" className="img-fluid" />
+                  <h5>Focused on Your Success</h5>
+
+                  <ul className="hometalentTextList">
+                    <li>On-Demand Deployment</li>
+                    <li>Deep Vetted Talent Pool</li>
+                    <li>Agility &amp; Scalability</li>
+                    <li>Fast Outcome-Driven</li>
+
+                  </ul>
+
+                </div>
+              </div>
+
+
+            </div>
+          </section>
+        </div>
+
+        <div className="TurnaroundSection">
+          <section className="container mt-4 ">
+            <div className="row ">
+              <div className="col-md-6 turnacoundCont  ">
+                <div className="turnheader">
+                  <h2>Lightning-Fast Turnaround</h2>
+                  <h4>10X</h4>
+                  <h3> Faster Delivery</h3>
+                </div>
+                <div className="trunaroundText">
+                  <img src="/images/fastHiring.png" alt="Lightning-Fast Turnaround" className="img-fluid" />
+
+
+                  <p>Choose our developers for a deployment speed that&apos;s ten times faster than traditional channels,
+                    ensuring you gain swift access to top-tier talent and can accelerate your project timelines effectively
+                  </p>
+                </div>
+              </div>
+              <div className="col-md-6 turnacoundCont  ">
+                <div className="turnheader">
+                  <h2>Uncompromised Quality</h2>
+                  <h4>95% </h4>
+                  <h3>Precision Match</h3>
+                </div>
+                <div className="trunaroundText">
+                  <img src="/images/qulitywork.png" alt="Uncompromised Quality" className="img-fluid" />
+
+                  <p>Our meticulous matching process ensures a 95% accuracy rate in aligning our elite developers with your
+                    specific requirements, guaranteeing a quality of service that precisely meets your project&apos;s needs</p>
+                </div>
+              </div>
+            </div>
+
+
+          </section>
+        </div>
+
+
+
+        {/* <!-- client Section  --> */}
+        <div className="clientCont mediaCont">
+          <section className="container mt-4 ">
+            <div className="row">
+              <div className="col-md-12">
+                <h2>Our Coverage by Leading Media</h2>
+                <h4>SkillsCapital Revolutionizes SAP and Specialized Talent Landscape</h4>
+              </div>
+
+            </div>
+            <div className="row">
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/media01.png" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/media02.png" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/media03.png" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/media04.png" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/media05.png" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/media06.png" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/media07.png" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/media08.png" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+
+
+
+
+        {/* <!-- client Section  --> */}
+        <div className="clientCont">
+          <section className="container mt-4 ">
+            <div className="row">
+              <div className="col-md-12">
+                <h2>Our Leadership&apos;s Client Work<br />A Chronicle of Success</h2>
+              </div>
+
+            </div>
+            <div className="row">
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/logo01.jpg" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/logo02.jpg" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/logo03.jpg" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/logo04.jpg" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/logo05.jpg" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/logo06.jpg" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/logo07.jpg" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/logo08.jpg" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/logo09.jpg" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/logo10.jpg" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/logo11.jpg" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+              <div className="col-md-3">
+                <div className="logoCont">
+                  <img src="/images/logo12.jpg" alt="logo" className="img-fluid" />
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+      </div>
+      <div className="searchSliderCont">
+        <section className="container mt-4 ">
+          <div className="row ">
+            <div className="col-md-12   ">
+              <h2>Best Developers</h2>
+              <h4>They are some of the best developers we have and they have tested and worked with several client</h4>
+              <Slider {...setting} className="searchSlider">
+              {(apiResponse === undefined) ? ("loading...") : (apiResponse.map((item: any, index: any) => (
+                <div className="slide " key={index}>
+                <div className="slideCont">
+                  <div className="SlideImg"><img src="images/sliderimg01.jpg" alt="name" /></div>
+                  <div className="slideText">
+                    <h3>{item.Name}</h3>
+                    <p className="DepText">{truncateSentence(item.CandidateProfile)}</p>
+                    <p className="salaryText">Salary <span>{item.Salary}</span></p>
+                    <p className="timeText">Available: 6 month </p>
+                    <p className="cityText">Location: {item.CurrentLocation}</p>
+                    <p className="ratingText">rating</p>
+                    <a href="#">Chat</a> <a href="#">hire</a>
+                  </div>
+                </div>
+              </div>
+                  )))}
+                {/* <div className="slide ">
+                  <div className="slideCont">
+                    <div className="SlideImg"><img src="images/sliderimg01.jpg" alt="name" /></div>
+                    <div className="slideText">
+                      <h3>Md Arshad Khan Assoc CIPD</h3>
+                      <p className="DepText">S/4 HANA Sales Certified consultant looking for a job and can join immediately, having hands-on on experience in Support and Implementation projects</p>
+                      <p className="salaryText">Salary <span>2345.60</span></p>
+                      <p className="timeText">Available: 6 month </p>
+                      <p className="cityText">New Delhi</p>
+                      <p className="ratingText">rating</p>
+                      <a href="#">Chat</a> <a href="#">hire</a>
+                    </div>
+                  </div>
+                </div>
+                <div className="slide ">
+                  <div className="slideCont">
+                    <div className="SlideImg"><img src="images/sliderimg01.jpg" alt="name" /></div>
+                    <div className="slideText">
+                      <h3>Md Arshad Khan Assoc CIPD</h3>
+                      <p className="DepText">S/4 HANA Sales Certified consultant looking for a job and can join immediately, having hands-on on experience in Support and Implementation projects</p>
+                      <p className="salaryText">Salary <span>2345.60</span></p>
+                      <p className="timeText">Available: 6 month </p>
+                      <p className="cityText">New Delhi</p>
+                      <p className="ratingText">rating</p>
+                      <a href="#">Chat</a> <a href="#">hire</a>
+                    </div>
+                  </div>
+                </div>
+                <div className="slide ">
+                  <div className="slideCont">
+                    <div className="SlideImg"><img src="images/sliderimg01.jpg" alt="name" /></div>
+                    <div className="slideText">
+                      <h3>Md Arshad Khan Assoc CIPD</h3>
+                      <p className="DepText">S/4 HANA Sales Certified consultant looking for a job and can join immediately, having hands-on on experience in Support and Implementation projects</p>
+                      <p className="salaryText">Salary <span>2345.60</span></p>
+                      <p className="timeText">Available: 6 month </p>
+                      <p className="cityText">New Delhi</p>
+                      <p className="ratingText">rating</p>
+                      <a href="#">Chat</a> <a href="#">hire</a>
+                    </div>
+                  </div>
+                </div>
+                <div className="slide ">
+                  <div className="slideCont">
+                    <div className="SlideImg"><img src="images/sliderimg01.jpg" alt="name" /></div>
+                    <div className="slideText">
+                      <h3>Md Arshad Khan Assoc CIPD</h3>
+                      <p className="DepText">S/4 HANA Sales Certified consultant looking for a job and can join immediately, having hands-on on experience in Support and Implementation projects</p>
+                      <p className="salaryText">Salary <span>2345.60</span></p>
+                      <p className="timeText">Available: 6 month </p>
+                      <p className="cityText">New Delhi</p>
+                      <p className="ratingText">rating</p>
+                      <a href="#">Chat</a> <a href="#">hire</a>
+                    </div>
+                  </div>
+                </div>
+                <div className="slide ">
+                  <div className="slideCont">
+                    <div className="SlideImg"><img src="images/sliderimg01.jpg" alt="name" /></div>
+                    <div className="slideText">
+                      <h3>Md Arshad Khan Assoc CIPD</h3>
+                      <p className="DepText">S/4 HANA Sales Certified consultant looking for a job and can join immediately, having hands-on on experience in Support and Implementation projects</p>
+                      <p className="salaryText">Salary <span>2345.60</span></p>
+                      <p className="timeText">Available: 6 month </p>
+                      <p className="cityText">New Delhi</p>
+                      <p className="ratingText">rating</p>
+                      <a href="#">Chat</a> <a href="#">hire</a>
+                    </div>
+                  </div>
+                </div> */}
+                  
+              </Slider>
+            </div>
+          </div>
+        </section>
+      </div>
+      <footer className="footer">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-4 footerheader">
+              <h5>Pages</h5>
+              <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="hire-sap-talent.html">Hire SAP Talent</a></li>
+                <li><a href="hire-specialized-tech-talent.html">Explore Specialized Talent</a></li>
+                <li><a href="#">Global Elastic Teams</a></li>
+                <li><a href="vetting-process.html">Vetting Process</a></li>
+                <li><a href="leadership.html">Leadership Team</a></li>
+                <li><a href="contactus.html">Contact Us</a></li>
+              </ul>
+            </div>
+            <div className="col-md-4 footerheader">
+              <h5>Tech Specialties</h5>
+              <ul>
+                <li><a href="">Tech Specialties</a></li>
+                <li><a href="">SAP</a></li>
+                <li><a href="">Cloud &amp; DevOps</a></li>
+                <li><a href="">Legacy Tech</a></li>
+                <li><a href="">AI &amp; ML</a></li>
+
+              </ul>
+            </div>
+            <div className="col-md-4 footerheader">
+              <h5>Contact</h5>
+              <ul>
+                <li><a href="">Email: contact@skillscapital.io</a></li>
+                <li>Address:<br />B1/H3, NH-19, Block B,<br />Mohan Cooperative Industrial<br /> Estate, New Delhi,
+                  110044,<br />India</li>
+
+              </ul>
+            </div>
+            <div className="col-md-4">
+
+            </div>
+            <div className="col-md-12 copyright">
+              <p>&copy; 2024 skills Capital. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }

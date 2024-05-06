@@ -1,8 +1,8 @@
-$( document ).ready(function() {
-    provideSLider();
-     provideSLider2();
+document.addEventListener("DOMContentLoaded", function() {
+  // Code that depends on jQuery can go here
+  provideSlider();
+  provideSlider2();
 });
-
 function provideSLider() {
       $('.homeSearchSlider').slick({
         dots: false,

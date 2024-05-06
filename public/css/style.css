@@ -1827,7 +1827,14 @@ ul.keyMetrics {
 .sapfico .missionSectionText{
     padding: 20px;
 }
-
+.custom-img {
+    max-width: 60%;
+    height: auto;
+}
+.custom-img2 {
+    max-width: 10%;
+    height: auto;
+}
 .searchSliderCont {
     width: 100%;
     height: auto;
@@ -1899,19 +1906,19 @@ ul.keyMetrics {
     color: transparent;
     border: none;
     outline: none;
-    background: rgba(0, 0, 0, .6);
+    background: rgba(0, 0, 0,0.6);
     background-repeat: no-repeat;
     background-position: center;
 }
 .slick-prev {
-    background-image: url(../images/arrow-left.png);
+    /* background-image: url(../images/arrow-left.png); */
     background-size: 100% auto;
 }
 .slick-prev {
     left: 0px;
 }
 .slick-next {
-    background-image: url(../images/arrow-right.png);
+    /* background-image: url(../images/arrow-right.png); */
     background-size: 100% auto;
 }
 .slick-next {
