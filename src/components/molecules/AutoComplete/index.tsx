@@ -68,9 +68,6 @@ function CustomAutocompleteFromAPI({setSelectedValue,touched}: CustomAutocomplet
     fetchData();
   }, [dynamicLocation]);
 
-  useEffect(()=>{
-    setSelectedValue({...value});
-  },[value])
 
   const handleInputChangeSearch = (event: any) => {
     console.log(event.target.value);

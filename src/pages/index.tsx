@@ -38,6 +38,7 @@ import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import { DEV_PUBLIC_URL } from "../../configs/auth";
 import axios from "axios";
+import ProfileCorousel from "@/components/molecules/profileCarausel";
 const apiUrl = `${DEV_PUBLIC_URL}form/candidates`;
 interface Candidates {
   Name: string;
@@ -130,7 +131,7 @@ export default function Home({ allData }: { allData: any }) {
   const fetchData = async (skills: string) => {
     try {
       console.log("Fetching data for skills:", skills);
-      
+
       let resp = await axios.post(`${apiUrl}`, {
         profiles: { Skill_Set: "TM" }, pageNumber: Math.floor(Math.random() * 10) + 1
       });
@@ -145,12 +146,12 @@ export default function Home({ allData }: { allData: any }) {
   try {
     useEffect(() => {
       fetchData(skills);
-      
+
     }, [skills]);
   } catch (error) {
     alert(error);
   }
- 
+
   const setting = {
     dots: false,
     infinite: true,
@@ -160,7 +161,7 @@ export default function Home({ allData }: { allData: any }) {
     slidesToScroll: 1,
     mobileFirst: true,
     // infinite: true,
-    
+
     responsive: [
       {
         breakpoint: 1024,
@@ -187,64 +188,7 @@ export default function Home({ allData }: { allData: any }) {
       <link href="css/reset.css" rel="stylesheet" />
       <link href="css/style.css" rel="stylesheet" />
       <link href="css/responsive.css" rel="stylesheet" />
-      <header className="navbar navbar-expand-lg navbar-light ">
-        <div className="container">
-          {/* <!-- Logo --> */}
-          <a className="navbar-brand" href="index.html">
-            <img src="/images/SkillsCapitalLogo.png" alt="skillCapital" />
-          </a>
-
-          {/* <!-- Menu Button (for mobile) --> */}
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          {/* <!-- Menu Items --> */}
-          <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul className="navbar-nav">
-              {/* <!-- <li className="nav-item active">
-            <a className="nav-link" href="index.html">Home</a>
-          </li>  --> */}
-              <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" aria-haspopup="true" aria-expanded="false">Hire Elite Talent</a>
-                <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                  <a className="dropdown-item" href="hire-sap-talent.html">Hire SAP Talent</a>
-                  <a className="dropdown-item" href="hire-specialized-tech-talent.html">Hire Specialized Talent</a>
-                </div>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">Global Elastic Teams</a>
-              </li>
-              <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" aria-haspopup="true" aria-expanded="false">SAP Talent Solutions</a>
-                <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                  <a className="dropdown-item" href="hire-sap-talent.html">Hire Top SAP Talent</a>
-                  <a className="dropdown-item" href="sap-talent-pool.html">SAP Talent Pool</a>
-                  <a className="dropdown-item" href="#">SAP Custom Solutions</a>
-                  <a className="dropdown-item" href="#">SAP Elite Consulting</a>
-                  <a className="dropdown-item" href="sap-portal-hub.html">SAP Portal Hub</a>
-                </div>
-              </li>
-              <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" aria-haspopup="true" aria-expanded="false">Company</a>
-                <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                  <a className="dropdown-item" href="aboutus.html">About Us</a>
-                  <a className="dropdown-item" href="leadership.html">Leadership Team</a>
-                  <a className="dropdown-item" href="vetting-process.html">Vetting Process</a>
-                  <a className="dropdown-item" href="#">Careers</a>
-                  <a className="dropdown-item" href="contactus.html">Contact Us</a>
-                </div>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="https://talent.skillscapital.io/clientportal">Client Login</a>
-              </li>
-              {/* <!-- <li className="nav-item">
-                <a className="nav-link" href="contact-us.html">Contact Us</a>
-              </li> --> */}
-            </ul>
-          </div>
-        </div>
-      </header>
+      <Navbar/>
 
       <div className="wrapper">
         {/* <!-- capabilitiesSection --> */}
@@ -736,149 +680,41 @@ export default function Home({ allData }: { allData: any }) {
         </div>
 
       </div>
-      <div className="searchSliderCont">
+      {/* <div className="searchSliderCont">
         <section className="container mt-4 ">
           <div className="row ">
             <div className="col-md-12   ">
               <h2>Best Developers</h2>
               <h4>They are some of the best developers we have and they have tested and worked with several client</h4>
               <Slider {...setting} className="searchSlider">
-              {(apiResponse === undefined) ? ("loading...") : (apiResponse.map((item: any, index: any) => (
-                <div className="slide " key={index}>
-                <div className="slideCont">
-                  <div className="SlideImg"><img src="images/sliderimg01.jpg" alt="name" /></div>
-                  <div className="slideText">
-                    <h3>{item.Name}</h3>
-                    <p className="DepText">{truncateSentence(item.CandidateProfile)}</p>
-                    <p className="salaryText">Salary <span>{item.Salary}</span></p>
-                    <p className="timeText">Available: 6 month </p>
-                    <p className="cityText">Location: {item.CurrentLocation}</p>
-                    <p className="ratingText">rating</p>
-                    <a href="#">Chat</a> <a href="#">hire</a>
-                  </div>
-                </div>
-              </div>
-                  )))}
-                {/* <div className="slide ">
-                  <div className="slideCont">
-                    <div className="SlideImg"><img src="images/sliderimg01.jpg" alt="name" /></div>
-                    <div className="slideText">
-                      <h3>Md Arshad Khan Assoc CIPD</h3>
-                      <p className="DepText">S/4 HANA Sales Certified consultant looking for a job and can join immediately, having hands-on on experience in Support and Implementation projects</p>
-                      <p className="salaryText">Salary <span>2345.60</span></p>
-                      <p className="timeText">Available: 6 month </p>
-                      <p className="cityText">New Delhi</p>
-                      <p className="ratingText">rating</p>
-                      <a href="#">Chat</a> <a href="#">hire</a>
+                {(apiResponse === undefined) ? ("loading...") : (apiResponse.map((item: any, index: any) => (
+                  <div className="slide " key={index}>
+                    <div className="slideCont">
+                      <div className="SlideImg"><img src="images/sliderimg01.jpg" alt="name" /></div>
+                      <div className="slideText">
+                        <h3>{item.Name}</h3>
+                        <p className="DepText">{truncateSentence(item.CandidateProfile)}</p>
+                        <p className="salaryText">Salary <span>{item.Salary}</span></p>
+                        <p className="timeText">Available: 6 month </p>
+                        <p className="cityText">Location: {item.CurrentLocation}</p>
+                        <p className="ratingText">rating</p>
+                        <a href="#">Chat</a> <a href="#">hire</a>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="slide ">
-                  <div className="slideCont">
-                    <div className="SlideImg"><img src="images/sliderimg01.jpg" alt="name" /></div>
-                    <div className="slideText">
-                      <h3>Md Arshad Khan Assoc CIPD</h3>
-                      <p className="DepText">S/4 HANA Sales Certified consultant looking for a job and can join immediately, having hands-on on experience in Support and Implementation projects</p>
-                      <p className="salaryText">Salary <span>2345.60</span></p>
-                      <p className="timeText">Available: 6 month </p>
-                      <p className="cityText">New Delhi</p>
-                      <p className="ratingText">rating</p>
-                      <a href="#">Chat</a> <a href="#">hire</a>
-                    </div>
-                  </div>
-                </div>
-                <div className="slide ">
-                  <div className="slideCont">
-                    <div className="SlideImg"><img src="images/sliderimg01.jpg" alt="name" /></div>
-                    <div className="slideText">
-                      <h3>Md Arshad Khan Assoc CIPD</h3>
-                      <p className="DepText">S/4 HANA Sales Certified consultant looking for a job and can join immediately, having hands-on on experience in Support and Implementation projects</p>
-                      <p className="salaryText">Salary <span>2345.60</span></p>
-                      <p className="timeText">Available: 6 month </p>
-                      <p className="cityText">New Delhi</p>
-                      <p className="ratingText">rating</p>
-                      <a href="#">Chat</a> <a href="#">hire</a>
-                    </div>
-                  </div>
-                </div>
-                <div className="slide ">
-                  <div className="slideCont">
-                    <div className="SlideImg"><img src="images/sliderimg01.jpg" alt="name" /></div>
-                    <div className="slideText">
-                      <h3>Md Arshad Khan Assoc CIPD</h3>
-                      <p className="DepText">S/4 HANA Sales Certified consultant looking for a job and can join immediately, having hands-on on experience in Support and Implementation projects</p>
-                      <p className="salaryText">Salary <span>2345.60</span></p>
-                      <p className="timeText">Available: 6 month </p>
-                      <p className="cityText">New Delhi</p>
-                      <p className="ratingText">rating</p>
-                      <a href="#">Chat</a> <a href="#">hire</a>
-                    </div>
-                  </div>
-                </div>
-                <div className="slide ">
-                  <div className="slideCont">
-                    <div className="SlideImg"><img src="images/sliderimg01.jpg" alt="name" /></div>
-                    <div className="slideText">
-                      <h3>Md Arshad Khan Assoc CIPD</h3>
-                      <p className="DepText">S/4 HANA Sales Certified consultant looking for a job and can join immediately, having hands-on on experience in Support and Implementation projects</p>
-                      <p className="salaryText">Salary <span>2345.60</span></p>
-                      <p className="timeText">Available: 6 month </p>
-                      <p className="cityText">New Delhi</p>
-                      <p className="ratingText">rating</p>
-                      <a href="#">Chat</a> <a href="#">hire</a>
-                    </div>
-                  </div>
-                </div> */}
-                  
+                )))}
               </Slider>
             </div>
+            <div style={{display:"flex",justifyContent:"center"}}>
+            <div className="hireSap"><a className="hire" href="hire-sap-talent.html">Explore Talent Pool</a><a className="hire"
+                    href="hire-specialized-tech-talent.html">Hire Elite Talent</a></div>
+            </div>
+            
           </div>
         </section>
-      </div>
-      <footer className="footer">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-4 footerheader">
-              <h5>Pages</h5>
-              <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="hire-sap-talent.html">Hire SAP Talent</a></li>
-                <li><a href="hire-specialized-tech-talent.html">Explore Specialized Talent</a></li>
-                <li><a href="#">Global Elastic Teams</a></li>
-                <li><a href="vetting-process.html">Vetting Process</a></li>
-                <li><a href="leadership.html">Leadership Team</a></li>
-                <li><a href="contactus.html">Contact Us</a></li>
-              </ul>
-            </div>
-            <div className="col-md-4 footerheader">
-              <h5>Tech Specialties</h5>
-              <ul>
-                <li><a href="">Tech Specialties</a></li>
-                <li><a href="">SAP</a></li>
-                <li><a href="">Cloud &amp; DevOps</a></li>
-                <li><a href="">Legacy Tech</a></li>
-                <li><a href="">AI &amp; ML</a></li>
-
-              </ul>
-            </div>
-            <div className="col-md-4 footerheader">
-              <h5>Contact</h5>
-              <ul>
-                <li><a href="">Email: contact@skillscapital.io</a></li>
-                <li>Address:<br />B1/H3, NH-19, Block B,<br />Mohan Cooperative Industrial<br /> Estate, New Delhi,
-                  110044,<br />India</li>
-
-              </ul>
-            </div>
-            <div className="col-md-4">
-
-            </div>
-            <div className="col-md-12 copyright">
-              <p>&copy; 2024 skills Capital. All rights reserved.</p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      </div> */}
+      {/* <ProfileCorousel/> */}
+      <FotterComponent/>
     </>
   );
 }

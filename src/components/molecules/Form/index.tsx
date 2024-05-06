@@ -28,6 +28,8 @@ import { useGlobalContext } from "../../../../context/store";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import CloseIcon from '@mui/icons-material/Close';
+import Navbar from "../navbar";
+import FotterComponent from "../Fotter";
 interface Option {
   id: number;
   label: string;
@@ -248,6 +250,7 @@ const Form: React.FC = () => {
           pageNumber,
         });
         const candidates = resp.data.data.candidatesData;
+        console.log("next", candidates)
         setDisablePrevButton(false);
         setLoading(false);
         if (candidates === "Data not present") {
@@ -453,7 +456,7 @@ const Form: React.FC = () => {
     console.log("mymy", apiDummyResponse);
   }, [apiDummyResponse]);
 
-  const handleChangefilter = async (event: SelectChangeEvent) => {
+  const handleChangefilter = async (event: ChangeEvent<HTMLSelectElement>) => {
     setFilterOption(event.target.value);
     console.log("object", event.target.value);
     if (event.target.value === "None") {
@@ -567,69 +570,7 @@ const Form: React.FC = () => {
       {showAskClient && <AskClient handleYouSelect={handleYouSelect} />}
       {youSelect && (
         <div>
-          <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
-          <link href="css/fonts.css" rel="stylesheet" />
-          <link href="css/reset.css" rel="stylesheet" />
-          <link href="css/style.css" rel="stylesheet" />
-          <link href="css/responsive.css" rel="stylesheet" />
-          <header className="navbar navbar-expand-lg navbar-light ">
-            <div className="container">
-              {/* <!-- Logo --> */}
-              <a className="navbar-brand" href="index.html">
-                <img src="images/SkillsCapitalLogo.png" alt="skillCapital" height="50" />
-              </a>
-
-              {/* <!-- Menu Button (for mobile) --> */}
-              <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
-              </button>
-
-              {/* <!-- Menu Items --> */}
-              <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul className="navbar-nav">
-                  <li className="nav-item ">
-                    <a className="nav-link" href="index.html">Home</a>
-                  </li>
-                  <li className="nav-item dropdown">
-                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" aria-haspopup="true" aria-expanded="false">Hire Elite Talent</a>
-                    <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                      <a className="dropdown-item" href="hire-sap-talent.html">Hire SAP Talent</a>
-                      <a className="dropdown-item" href="explore-specialized-talent.html">Hire Specialized Talent</a>
-                    </div>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="gobal-elastic-teams.html">Global Elastic Teams</a>
-                  </li>
-                  <li className="nav-item dropdown">
-                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" aria-haspopup="true" aria-expanded="false">SAP Talent Solutions</a>
-                    <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                      <a className="dropdown-item" href="hire-sap-talent.html">Hire Top SAP Talent</a>
-                      <a className="dropdown-item" href="sap-talent-pool.html">SAP Talent Pool</a>
-                      <a className="dropdown-item" href="sap-custom-solutions.html">SAP Custom Solutions</a>
-                      <a className="dropdown-item" href="sap-elite-consulting.html">SAP Elite Consulting</a>
-                      <a className="dropdown-item" href="sap-portal-hub.html">SAP Portal Hub</a>
-                    </div>
-                  </li>
-                  <li className="nav-item dropdown">
-                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" aria-haspopup="true" aria-expanded="false">Company</a>
-                    <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                      <a className="dropdown-item" href="about-us.html">About Us</a>
-                      <a className="dropdown-item" href="leadership-team.html">Leadership Team</a>
-                      <a className="dropdown-item" href="vetting-process.html">Vetting Process</a>
-                      <a className="dropdown-item" href="careers.html">Careers</a>
-                      <a className="dropdown-item" href="contact-us.html">Contact Us</a>
-                    </div>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="https://talent.skillscapital.io/clientportal">Client Login</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="contact-us.html">Contact Us</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </header>
+          <Navbar />
 
           <div className="wrapper searchResult ">
             {/* <!-- welcome Section  --> */}
@@ -650,23 +591,69 @@ const Form: React.FC = () => {
                           <option value="Experience_in_Years">Experience</option>
                           <option value="name">Name</option>
                         </select>
-                        <select id="filterby" name="">
+                        <select
+                          id="filterby"
+                          name=""
+                          value={filterOption}
+                          onChange={handleChangefilter}
+                        >
                           <option value="volvo">Filter By</option>
-                          <option value="saab">Location</option>
-                          <option value="mercedes">TimeZone</option>
-                          <option value="audi">College</option>
-                          <option value="mercedes">Company</option>
-                          <option value="audi">None</option>
+                          <option value="searchLocation">Location</option>
+                          <option value="Current_Timezone">TimeZone</option>
+                          <option value="College">College</option>
+                          <option value="Company">Company</option>
+                          <option value="None">None</option>
                         </select>
+                        {filterOption && filterOption === "searchLocation" && (
+                          <select
+                            id="filterby"
+                            name=""
+                            value={filterOption}
+                            onChange={handleChangefilter}
+                          >
+                            <option value="volvo">Filter By</option>
+                            <option value="searchLocation">Location</option>
+                            <option value="Current_Timezone">TimeZone</option>
+                            <option value="College">College</option>
+                            <option value="Company">Company</option>
+                            <option value="None">None</option>
+                          </select>
+                        )}
+                        {filterOption && filterOption === "Company" && (
+                          <SmallAutocompleteFromAPI
+                            handleFilter={handleFilter}
+                            setAllSkills={null}
+                            setFinalTotalSkills={null}
+                            widtha="200px"
+                            name="Company Name"
+                            imageurl=""
+                            fieldName="CompanyName"
+                            setSelectedValue={setSkillInfo}
+                            url={`${DEV_PUBLIC_URL}searchbar/candidates`}
+                          />
+                        )}
+                        {/* {filterOption && filterOption === "College" && (
+                          <SmallAutocompleteFromAPI
+                            handleFilter={handleFilter}
+                            setAllSkills={null}
+                            setFinalTotalSkills={null}
+                            widtha="200px"
+                            name="College Name"
+                            imageurl=""
+                            fieldName="CollegeName"
+                            setSelectedValue={setSkillInfo}
+                            url={`${DEV_PUBLIC_URL}searchbar/candidates`}
+                          />
+                        )} */}
 
                       </div>
                       <div className="filterBoxRight">
                         <label htmlFor="selectall">Select All: </label>
-                        <input 
-                        className="" 
-                        type="checkbox" 
-                        checked={selectAll}
-                    onChange={handleSelectAll}
+                        <input
+                          className=""
+                          type="checkbox"
+                          checked={selectAll}
+                          onChange={handleSelectAll}
                         />
 
                       </div>
@@ -813,22 +800,42 @@ const Form: React.FC = () => {
                     <div className="paginationSection">
                       <ul className="pagination">
                         <li className="page-item disabled">
-                          {/* <a className="page-link" href="#" tabIndex="-1" aria-disabled="true">Previous</a> */}
+                          <button
+                            className="page-link"
+                            disabled={disablePrevButton}
+                            onClick={prevHandle}
+                          >
+                            Previous
+                          </button>
                         </li>
                         <li className="page-item active" aria-current="page">
-                          <a className="page-link" href="#">1 <span className="sr-only">(current)</span></a>
+                          <a className="page-link" href="#">{pageNumber} </a>
                         </li>
-                        <li className="page-item"><a className="page-link" href="#">2</a></li>
+                        {/* <li className="page-item"><a className="page-link" href="#">2</a></li>
                         <li className="page-item"><a className="page-link" href="#">3</a></li>
                         <li className="page-item"><a className="page-link" href="#">4</a></li>
-                        <li className="page-item"><a className="page-link" href="#">5</a></li>
+                        <li className="page-item"><a className="page-link" href="#">5</a></li> */}
                         <li className="page-item">
-                          <a className="page-link" href="#">Next</a>
+                          <button className="page-link" disabled={disableNextButton}
+                            onClick={nextFun}>Next</button>
                         </li>
                       </ul>
+
                     </div>
+
+
                   </div>
 
+                </div>
+                <div style={{ textAlign: "center",marginBottom:"100px" }}>
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-lg"
+                    onClick={handleMeetButton}
+                    disabled={selectedId.length === 0}
+                  >
+                    Schedule Meeting
+                  </button>
                 </div>
               </section>
 
@@ -836,49 +843,7 @@ const Form: React.FC = () => {
 
 
           </div>
-          <footer className="footer">
-            <div className="container">
-              <div className="row">
-                <div className="col-md-4 footerheader">
-                  <h5>Pages</h5>
-                  <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="hire-sap-talent.html">Hire SAP Talent</a></li>
-                    <li><a href="explore-specialized-talent.html">Explore Specialized Talent</a></li>
-                    <li><a href="gobal-elastic-teams.html">Global Elastic Teams</a></li>
-                    <li><a href="vetting-process.html">Vetting Process</a></li>
-                    <li><a href="leadership-team.html">Leadership Team</a></li>
-                    <li><a href="contact-us.html">Contact Us</a></li>
-                  </ul>
-                </div>
-                <div className="col-md-4 footerheader">
-                  <h5>Tech Specialties</h5>
-                  <ul>
-                    <li><a href="">Tech Specialties</a></li>
-                    <li><a href="">SAP</a></li>
-                    <li><a href="">Cloud &amp; DevOps</a></li>
-                    <li><a href="">Legacy Tech</a></li>
-                    <li><a href="">AI &amp; ML</a></li>
-
-                  </ul>
-                </div>
-                <div className="col-md-4 footerheader">
-                  <h5>Contact</h5>
-                  <ul>
-                    <li><a href="">Email: contact@skillscapital.io</a></li>
-                    <li>Address:<br />B1/H3, NH-19, Block B,<br />Mohan Cooperative Industrial<br /> Estate, New Delhi, 110044,<br />India</li>
-
-                  </ul>
-                </div>
-                <div className="col-md-4">
-
-                </div>
-                <div className="col-md-12 copyright">
-                  <p>&copy; 2024 skills Capital. All rights reserved.</p>
-                </div>
-              </div>
-            </div>
-          </footer>
+          <FotterComponent />
         </div>
       )}
     </>

@@ -11,7 +11,6 @@ body {
 
 
 
-
 /* ############################################# */
 /* ################## Common ################### */
 /* ############################################# */
@@ -25,7 +24,9 @@ body {
     clear: both;
     line-height: 1px;
 }
-
+.DepText{
+    width:23vw;
+}
 .position-rel {
     position: relative;
 }
@@ -2184,4 +2185,502 @@ li.listingPanel:nth-child(even) { background: #f9f9ff; }
 }
 .pagination-container {
       
-    }
+}
+.globalElasticTeam .sapExpertise h2
+{
+    font-size: 54px;
+}
+.globalElasticTeam .sapExpertise h3 {
+   
+    font-size: 24px;
+}
+.globalElasticTeam .boxExplore p {
+    font-size: 16px;
+    line-height: 24px;
+    margin: 24px 0;
+}
+.globalElasticTeam .boxExplore{
+    min-height: 340px;
+}
+.globalElasticTeam .boxExplore span.catText {
+    position: absolute;
+    top: -48px;
+    right: 0%;
+    text-align: center;
+    padding: 6px 20px;
+    background: #44a39e;
+    font-family: 'Oswald', sans-serif;
+    color: #ffffff;
+    font-size: 28px;
+    line-height: 58px;
+}
+.globalElasticTeam .superchargeText {
+    min-height: 150px;
+    font-size: 16px;
+    line-height: 21px;
+    background: #ffffff;
+}
+.globalElasticTeam .secSection h4{
+    font-size: 24px;
+}
+
+.ventureSection {
+    padding: 70px 0 120px;
+}
+.venturCont h2 {
+    font-size: 54px;
+    line-height: 62px;
+    text-transform: uppercase;
+}
+.venturCont h3 {
+    color: #ff5b99;
+    margin-bottom: 50px;
+    font-size: 24px;
+}
+.venturCont p {
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 20px;
+}
+.venturCont a.contButton {
+    background: #09514d;
+    color: #ffffff;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease 0s;
+    font-size: 18px;
+    font-family: Poppins;
+    justify-content: center;
+    align-items: center;
+    
+    text-decoration: none;
+    display: inline-block;
+    font-family: 'Pelita Std Regular';
+}
+.venturCont a.contButton:hover{
+     background: #44a39e;
+}
+
+.booleanText{
+    text-align: right;
+}
+.searchCondidateForm .switch-field {
+	display: flex;
+	overflow: hidden;
+    text-align: right;
+    align-items: center;
+}
+
+.searchCondidateForm .switch-field input {
+	position: absolute !important;
+	clip: rect(0, 0, 0, 0);
+	height: 1px;
+	width: 1px;
+	border: 0;
+	overflow: hidden;
+}
+
+.searchCondidateForm .switch-field label {
+	background-color: #ffffff;
+	color: rgba(0, 0, 0, 0.6);
+	font-size: 14px;
+	line-height: 1;
+	text-align: center;
+	padding: 8px 8px;
+	margin-right: -1px;
+	border: 1px solid rgba(0, 0, 0, 0.4);
+	
+	transition: all 0.1s ease-in-out;
+}
+
+.searchCondidateForm .switch-field label:hover {
+	cursor: pointer;
+}
+
+.searchCondidateForm .switch-field input:checked + label {
+	    background-color: #73b5ed;
+    box-shadow: none;
+    color: #ffffff;
+	box-shadow: none;
+}
+
+.searchCondidateForm .switch-field label:first-of-type {
+	border-radius: 4px 0 0 4px;
+}
+
+.searchCondidateForm .switch-field label:last-of-type {
+	border-radius: 0 4px 4px 0;
+}
+.keywordsText{
+    
+}
+.searchFormSection {
+    margin-bottom: 140px;
+    margin-top: 50px;
+}
+.searchFormSection h2 {
+    font-size: 54px;
+    line-height: 64px;
+    text-transform: uppercase;
+    margin-top: 30px;
+    text-align: center;
+    margin-bottom: 80px;
+}
+.searchBoxLeft{
+      
+    font-size: 16px;
+    color: #242323;
+    line-height: 22px;
+    padding-right: 30px;
+   
+}
+.searchBoxLeft p{
+     font-size: 16px;
+    color: #242323;
+    line-height: 22px;
+    margin-bottom: 10px;
+}
+.searchFormSection h3 {
+    font-size: 34px;
+    line-height: 48px;
+    font-weight: 300;
+    margin-bottom: 40px;
+    font-family: 'Oswald', sans-serif;
+}
+.searchCondidateForm ul li{
+    margin-bottom:24px;
+}
+.searchCondidateForm label{
+    font-size: 14px;
+    margin-right: 14px;
+}
+
+.searchCondidateForm input.excludeKeywords[type="text"]::placeholder {
+  color: #15b6d8;
+ 
+}
+.candidateExpbox{
+    display: flex;
+    align-items: center;
+}
+.candidateExpbox input{
+    width: 30%;
+    margin-right: 14px;
+}
+.candidateExpbox span,  .candidateExpbox p{
+    margin-right: 14px;
+}
+.blueColor{
+    color: #15b6d8;
+}
+.candidatesalaryBox{
+     display: flex;
+    align-items: center;
+}
+.searchBoxLeft select{
+    border: 1px solid #ced4da;
+    height: calc(1.5em + .75rem + 2px);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+.candidatesalaryBox input {
+    width: 20%;
+    margin:0 14px;
+}
+.jobtypeBox select{
+    margin-right: 14px;
+    width: 30%;
+}
+.keywordBox input[type="text"]{
+    margin: 10px 0;
+}
+.searchCondidateForm .switch-field p{
+    font-size: 14px;
+    color: rgba(0, 0, 0, .5);
+    margin-left: 6px;
+    margin-bottom: 0px;
+}
+.searchBoxRight{
+    background: #f9f9ff;
+}
+.recentSearch{
+    padding: 20px 10px 20px 20px;
+}
+.recentSearch p{
+    margin-bottom: 10px;
+    font-size: 14px;
+    
+}
+.recentSearch p span{
+    color: #3596e9;
+    margin-right: 8px;
+}
+.recentSearchCont{
+    margin-bottom: 24px;
+}
+.searchBtn{
+    background: #09514d;
+    color: #ffffff;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease 0s;
+    font-size: 18px;
+    font-family: Poppins;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 00px 0 0px;
+    text-decoration: none;
+    display: inline-block;
+    font-family: 'Pelita Std Regular';
+}
+.searchBtn:hover{
+     background: #44a39e;
+}
+.modelchioce{
+    padding: 30px 0 70px;
+}
+.bestMatch{
+    padding-bottom: 40px;
+    text-align: center;
+    padding: 40px 0 80px;
+}
+.bestMatch h2{
+    margin-bottom: 20px;
+}
+.serviceModeSection .bestMatch p{
+    text-align: center;
+    font-size: 24px;
+    line-height: 28px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+.bestMatch h2 span {
+    color: #b0d5f5;
+}
+
+.bestMatch h2 {
+    font-size: 68px;
+    line-height: 68px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+}
+.serviceModeSection h3 {
+    font-size: 28px;
+    line-height: 32px;
+    text-transform: capitalize;
+    margin-bottom: 28px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+}
+.serviceModeSection p{
+    font-size: 16px;
+    line-height: 21px;
+}
+.serviceModeSection h4 {
+    font-size: 21px;
+    line-height: 26px;
+    
+    margin:24px 0px 12px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+}
+.serviceModeSection ul li{
+    font-size: 16px;
+    line-height: 21px;
+}
+.selfModel{
+    background: #F0FFF9;
+    margin: 0px 0 0;
+    padding: 40px 30px 40px;
+}
+.assistedModel{
+    background: #FFF0F0;
+    margin: 0px 0 0;
+    padding: 40px 30px 40px;
+}
+.modelchioce ul li{
+    padding-left: 20px;
+    background: url(../images/greencheck02.png) 0px 6px no-repeat;
+    margin-bottom: 8px;
+}
+.howmodelWork{
+    background: #44a39e;
+    text-align: center;
+    padding: 40px 20px;
+    color: #ffffff;
+}
+.howmodelWork p{
+    font-size: 24px;
+    line-height: 28px;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-bottom: 40px;
+}
+.howmodelWork h2{
+    text-align: center;
+    font-size: 56px;
+    line-height: 52px;
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    margin:10px 0 10px;
+    color: #ffffff ;
+}
+.modelchioce .modelWorkCont ul li {
+   
+    background: none;
+    margin-bottom: 25px;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+    border-radius: 6px;
+    padding: 10px 20px;
+    border: 1px solid #c7c1c1;
+    cursor: pointer;
+    position: relative;
+   
+}
+.modelchioce .modelWorkCont ul li:hover{
+    border: 1px solid #44a39e;
+}
+.modelchioce .modelWorkCont ul li h4{
+    margin: 10px 0px 12px;
+}
+.modelWorkCont li p{
+    display: none;
+    padding-bottom: 20px;
+}
+.modelchioce .modelWorkCont ul li span{
+    font-size: 24x;
+    position: absolute;
+    z-index: 1;
+    right: 20px;
+    top: 10px;
+    color: #ada4a4;
+}
+.modelchioce .modelWorkCont ul li span.upword{
+    rotate: 180deg;
+}
+.howmodelWork a, .contactusModel a {
+    background: #09514d;
+    color: #ffffff;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease 0s;
+    font-size: 18px;
+    font-family: Poppins;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 60px 0 30px;
+    text-decoration: none;
+    display: inline-block;
+    font-family: 'Pelita Std Regular';
+    margin-top: 16px;
+}
+.howmodelWork a.chooseSelf:hover{
+    background: #F0FFF9;
+    color: #000000;
+}
+.howmodelWork a.chooseAssisted:hover{
+    background: #FFF0F0;
+    color: #000000;
+}
+.contactusModel{
+    padding: 80px 0;
+    text-align: center;
+    
+}
+.contactusModel p{
+    font-size: 24px;
+    line-height: 28px;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-bottom: 40px;
+}
+.contactusModel a:hover{
+     background: #44a39e;
+}
+
+.candidateCont{
+    padding: 120px 0  120px;
+    text-align: center;
+}
+.candidateCont h2{
+    font-size: 28px;
+    line-height: 32px;
+    text-transform: capitalize;
+    margin: 28px 0;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+}
+.candidateCont img{
+    margin: 24px 0;
+}
+.candidateCont a{
+    background: #09514d;
+    color: #ffffff;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease 0s;
+    font-size: 18px;
+    font-family: Poppins;
+    justify-content: center;
+    align-items: center;
+    
+    text-decoration: none;
+    display: inline-block;
+    font-family: 'Pelita Std Regular';
+    margin-top: 16px;
+    margin-bottom: 20px;
+}
+.candidateCont a:hover{
+     background: #44a39e;
+}
+.specificSearchForm{
+    padding: 30px; 
+    max-width: 800px;
+    margin: 0px auto 30px;
+    background: #f9f9ff;
+    border-radius: 10px;
+}
+.specificSearchForm label{
+    font-size: 16px;
+    color: #242323;
+    line-height: 22px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+.specificSearchForm .oneCol{
+    margin-bottom: 20px;
+}
+.specificSearchForm .leftCol{
+    float: left;
+    width: 50%;
+    padding-right: 20px;
+     margin-bottom: 20px;
+}
+.specificSearchForm .rightCol{
+    float: right;
+    width: 50%;
+    padding-left: 20px;
+     margin-bottom: 20px;
+        
+}
+.specificSearchForm select {
+    border: 1px solid #ced4da;
+    height: calc(1.5em + .75rem + 2px);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    width: 100%;
+}
+.sapSearchBtn{
+    text-align: center;
+}

@@ -17,7 +17,7 @@ interface ClientInfo {
 interface SteponeProps {
     ClientData:ClientInfo;
   }
-const Thankyou: React.FC<SteponeProps> = ({ClientData}) => {
+const Thankyou= () => {
     return (
         <div className={css.thankyouContainer}>
             <div className={css.thankyouinnerContainer}>
